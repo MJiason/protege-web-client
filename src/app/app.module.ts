@@ -17,6 +17,7 @@ import { PopupComponent } from './components/ui/popup/popup.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSortModule} from "@angular/material/sort";
+import { ProjectsEditComponent } from './components/projects/projects-edit/projects-edit.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {MatSortModule} from "@angular/material/sort";
     ToolbarComponent,
     ProjectsComponent,
     ProjectsTableComponent,
-    PopupComponent
+    PopupComponent,
+    ProjectsEditComponent
   ],
     imports: [
         BrowserModule,
