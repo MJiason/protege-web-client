@@ -1,0 +1,44 @@
+<ng-container>
+    <div class="projects__container">
+        <button
+            class="projects__button"
+            mat-stroked-button
+            color="primary"
+            (click)="openDialog(createProjectPopup)"
+        >New project
+        </button>
+        <div class="projects__table" id="projects_table" >
+            <projects-table></projects-table>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #createProjectPopup >
+    <h1 mat-dialog-title>Create New Project</h1>
+    <div mat-dialog-content class="projects__popup">
+        <form [formGroup]="projectForm" class="projects__popup__form">
+            <mat-form-field>
+                <mat-label>Project name</mat-label>
+                <input formControlName="name" matInput placeholder="Enter project name">
+            </mat-form-field>
+            <mat-form-field >
+                <mat-label>Language</mat-label>
+                <input formControlName="language" matInput placeholder="Enter language">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <textarea formControlName="description" matInput placeholder="Enter description"></textarea>
+            </mat-form-field>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button
+            mat-button
+            mat-dialog-close
+            cdkFocusInitial
+            [disabled] = "!projectForm.valid"
+            (click)="onCreateForm()"
+        >Create</button>
+        <button mat-button mat-dialog-close>Cancel</button>
+    </div>
+</ng-template>
