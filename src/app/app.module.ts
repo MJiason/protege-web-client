@@ -16,6 +16,7 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import { PopupComponent } from './components/ui/popup/popup.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {ReactiveFormsModule} from "@angular/forms";
         NoopAnimationsModule,
         MatDialogModule,
         ReactiveFormsModule,
+        MatSortModule,
 
     ],
   providers: [],
