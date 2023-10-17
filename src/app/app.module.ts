@@ -18,6 +18,12 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSortModule} from "@angular/material/sort";
 import { ProjectsEditComponent } from './components/projects/projects-edit/projects-edit.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatSelectModule} from "@angular/material/select";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatGridListModule} from "@angular/material/grid-list";
+import { TreeComponent } from './components/ui/tree/tree.component';
+import {MatTreeModule} from "@angular/material/tree";
 
 @NgModule({
   declarations: [
@@ -26,7 +32,8 @@ import { ProjectsEditComponent } from './components/projects/projects-edit/proje
     ProjectsComponent,
     ProjectsTableComponent,
     PopupComponent,
-    ProjectsEditComponent
+    ProjectsEditComponent,
+    TreeComponent
   ],
     imports: [
         BrowserModule,
@@ -41,6 +48,11 @@ import { ProjectsEditComponent } from './components/projects/projects-edit/proje
         MatDialogModule,
         ReactiveFormsModule,
         MatSortModule,
+        MatTabsModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatGridListModule,
+        MatTreeModule,
 
     ],
   providers: [],

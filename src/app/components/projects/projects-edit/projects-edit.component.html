@@ -1,1 +1,42 @@
-<p>projects-edit works for {{projectId}}!</p>
+<div>
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-label>Classes</mat-label>
+                <mat-icon>menu</mat-icon>
+            </ng-template>
+            <ng-container *ngTemplateOutlet="classes"></ng-container>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-label>Properties</mat-label>
+                <mat-icon>settings</mat-icon>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-label>Individuals</mat-label>
+                <mat-icon>how_to_reg</mat-icon>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-label>Comments</mat-label>
+                <mat-icon>comment</mat-icon>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+
+    <ng-template #classes>
+        <mat-grid-list class="grid-container" rowHeight="1:1" cols="5">
+            <mat-grid-tile class="grid-container__column" [colspan]="1">
+                <div style="height: 100%; width: 100%">
+                    <tree></tree>
+                </div>
+
+            </mat-grid-tile>
+            <mat-grid-tile class="grid-container__column" [colspan]="3"></mat-grid-tile>
+            <mat-grid-tile class="grid-container__column" [colspan]="1"></mat-grid-tile>
+        </mat-grid-list>
+    </ng-template>
+</div>
