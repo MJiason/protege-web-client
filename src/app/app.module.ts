@@ -15,7 +15,7 @@ import { ProjectsTableComponent } from './components/projects/projects-table/pro
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import { PopupComponent } from './components/ui/popup/popup.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSortModule} from "@angular/material/sort";
 import { ProjectsEditComponent } from './components/projects/projects-edit/projects-edit.component';
 import {MatTabsModule} from "@angular/material/tabs";
@@ -24,6 +24,12 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatGridListModule} from "@angular/material/grid-list";
 import { TreeComponent } from './components/ui/tree/tree.component';
 import {MatTreeModule} from "@angular/material/tree";
+import {MatListModule} from "@angular/material/list";
+import { EditableTableComponent } from './components/ui/editable-table/editable-table.component';
+import { PropertyTableComponent } from './components/ui/property-table/property-table.component';
+import { IndTableComponent } from './components/ui/ind-table/ind-table.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -33,7 +39,10 @@ import {MatTreeModule} from "@angular/material/tree";
     ProjectsTableComponent,
     PopupComponent,
     ProjectsEditComponent,
-    TreeComponent
+    TreeComponent,
+    EditableTableComponent,
+    PropertyTableComponent,
+    IndTableComponent
   ],
     imports: [
         BrowserModule,
@@ -53,6 +62,10 @@ import {MatTreeModule} from "@angular/material/tree";
         MatSidenavModule,
         MatGridListModule,
         MatTreeModule,
+        MatListModule,
+        FormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule
 
     ],
   providers: [],

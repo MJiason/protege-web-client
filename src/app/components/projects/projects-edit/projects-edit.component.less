@@ -1,19 +1,41 @@
 .projects-edit-toolbar {
-    height: 100%;
+    height: calc(100% - 64px);
+
+    &__group {
+        height: 100%;
+
+
+    }
 }
 
+
 .mat-grid-tile {
-    background: lightgray;
+    //background: lightgray;
 }
 
 .grid-container {
-    height: 37vh;
+
 
     &__column {
         height: 100%;
 
-    }
+        &__container {
+            height: 100%;
+            width: 100%;
+        }
 
+        &__selector {
+            margin-top: 35px;
+            width: 59%;
+        }
+
+        &__editblock {
+
+            display: flex;
+            flex-direction: column;
+            margin: 30px;
+        }
+    }
 
 }
 

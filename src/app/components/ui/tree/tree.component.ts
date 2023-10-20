@@ -1,70 +1,9 @@
-import { Component } from '@angular/core';
-import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
-import {FlatTreeControl} from "@angular/cdk/tree";
-
-
-
-interface FoodNode {
-    name: string;
-    children?: FoodNode[];
-}
-
-const TREE_DATA: FoodNode[] = [
-    {
-        name: 'Fruit',
-        children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-    },
-    {
-        name: 'Vegetables',
-        children: [
-            {
-                name: 'Green',
-                children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-            },
-            {
-                name: 'Orange',
-                children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
-            },
-        ],
-    },
-    {
-        name: 'Vegetables',
-        children: [
-            {
-                name: 'Green',
-                children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-            },
-            {
-                name: 'Orange',
-                children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
-            },
-        ],
-    },{
-        name: 'Vegetables',
-        children: [
-            {
-                name: 'Green',
-                children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-            },
-            {
-                name: 'Orange',
-                children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
-            },
-        ],
-    },{
-        name: 'Vegetables',
-        children: [
-            {
-                name: 'Green',
-                children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-            },
-            {
-                name: 'Orange',
-                children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
-            },
-        ],
-    },
-];
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource} from "@angular/material/tree";
+import {FlatTreeControl, NestedTreeControl} from "@angular/cdk/tree";
+import {node, secondTree, TreeNode} from "../../../models/project-trees";
+import {SelectionModel} from "@angular/cdk/collections";
+import {Class} from "../../../models/projects";
 
 /** Flat node with expandable and level information */
 interface ExampleFlatNode {
@@ -79,34 +18,70 @@ interface ExampleFlatNode {
     styleUrls: ['./tree.component.less']
 })
 
-export class TreeComponent {
-    private _transformer = (node: FoodNode, level: number) => {
-        return {
-            expandable: !!node.children && node.children.length > 0,
-            name: node.name,
-            level: level,
-        };
-    };
+export class TreeComponent implements OnInit {
 
-    treeControl = new FlatTreeControl<ExampleFlatNode>(
-        node => node.level,
-        node => node.expandable,
-    );
+    @Input() treeData!: any;
+    @Output() nodeSelected = new EventEmitter<TreeNode>();
+    @Output() addClass = new EventEmitter<any>();
 
-    treeFlattener = new MatTreeFlattener(
-        this._transformer,
-        node => node.level,
-        node => node.expandable,
-        node => node.children,
-    );
 
-    dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-    constructor() {
-        this.dataSource.data = TREE_DATA;
+    constructor(private cdr: ChangeDetectorRef) {
     }
 
-    hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+    treeControl = new NestedTreeControl<TreeNode>(node => node.children);
+    dataSource = new MatTreeNestedDataSource<TreeNode>();
+    selection = new SelectionModel<TreeNode>(true);
+    currentNode: TreeNode | undefined;
 
+    ngOnInit(): void {
+        this.dataSource.data = this.treeData;
+    }
 
+    deleteNodeByClassId(classId: string | undefined, node: TreeNode[] | undefined): TreeNode[] | undefined {
+        if (!node) {
+            return node;
+        }
+
+        // Filter the children array to remove the node with the specified classId
+        node = node.filter((child) => {
+            if (child.entity && child.entity.id === classId) {
+                // Node with the specified classId found and removed
+                return false;
+            } else {
+                // Recursively call the function for child nodes
+                child.children = this.deleteNodeByClassId(classId, child.children);
+                return true;
+            }
+        });
+
+        return node;
+    }
+
+    hasChild = (_: number, node: TreeNode) => !!node.children && node.children.length > 0;
+
+    onNodeClicked(node: TreeNode): void {
+        if (this.selection.isSelected(node)) {
+            this.selection.deselect(node);
+        } else {
+            this.selection.clear();
+            this.selection.select(node);
+        }
+        this.currentNode = node;
+        this.nodeSelected.emit(node);
+    }
+
+    onDeleteNodeByClassId() {
+        let node = this.deleteNodeByClassId(this.currentNode?.entity?.id, this.treeData);
+        this.dataSource.data = node as TreeNode[];
+        this.treeControl.dataNodes = node as TreeNode[];
+        this.cdr.detectChanges();
+    }
+
+    addClassFn() {
+        this.addClass.emit();
+
+        this.dataSource.data = secondTree;
+        this.treeControl.dataNodes = secondTree;
+        this.cdr.detectChanges();
+    }
 }

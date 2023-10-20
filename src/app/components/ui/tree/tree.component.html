@@ -1,27 +1,54 @@
 <div class="tree-buttons">
-    <button mat-mini-fab color="primary">
-        <mat-icon>edit</mat-icon>
+    <button mat-mini-fab
+            color="primary"
+            (click)="addClassFn()"
+    >
+        <mat-icon>add</mat-icon>
     </button>
-    <button mat-mini-fab color="accent">
+    <button
+        mat-mini-fab
+        color="accent"
+        (click)="onDeleteNodeByClassId()"
+    >
         <mat-icon>delete</mat-icon>
     </button>
 </div>
-
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+<mat-divider></mat-divider>
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
     <!-- This is the tree node template for leaf nodes -->
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-        <!-- use a disabled button to provide padding for tree leaf -->
-        <button mat-icon-button disabled></button>
-        {{node.name}}
+    <!-- There is inline padding applied to this node using styles.
+      This padding value depends on the mat-icon-button width. -->
+    <mat-tree-node
+        *matTreeNodeDef="let node"
+        matTreeNodeToggle
+        [class.selected-node]="selection.isSelected(node)"
+        (click)="onNodeClicked(node)"
+    >
+        {{node.entity.name}}
     </mat-tree-node>
     <!-- This is the tree node template for expandable nodes -->
-    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-        <button mat-icon-button matTreeNodeToggle
-                [attr.aria-label]="'Toggle ' + node.name">
-            <mat-icon class="mat-icon-rtl-mirror">
-                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-            </mat-icon>
-        </button>
-        {{node.name}}
-    </mat-tree-node>
+    <mat-nested-tree-node
+        *matTreeNodeDef="let node;
+        when: hasChild"
+        (click)="onNodeClicked(node)"
+    >
+        <div
+            class="mat-tree-node"
+            [class.selected-node]="selection.isSelected(node)"
+        >
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.entity.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+            </button>
+            {{node.entity.name}}
+        </div>
+        <!-- There is inline padding applied to this div using styles.
+            This padding value depends on the mat-icon-button width.  -->
+        <div [class.example-tree-invisible]="!treeControl.isExpanded(node)"
+             role="group">
+            <ng-container matTreeNodeOutlet></ng-container>
+        </div>
+    </mat-nested-tree-node>
 </mat-tree>

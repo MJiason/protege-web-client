@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
     styleUrls: ['./projects-table.component.less']
 })
 export class ProjectsTableComponent implements AfterViewInit{
-    displayedColumns: string[] = ['id', 'name', 'createdWhen', 'lastModified'];
+    displayedColumns: string[] = ['id', 'name', 'createdWhen', 'download'];
     dataSource: MatTableDataSource<ProjectData>;
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -42,4 +42,15 @@ export class ProjectsTableComponent implements AfterViewInit{
             // todo add logic
         );
     }
+
+    download(event: any) {
+        event.preventDefault();
+        event.stopPropagation();
+        const link = document.createElement('a');
+        link.href = 'assets/ontology.owl';
+        link.download = 'ontology.owl';
+        link.click();
+    }
+
+
 }

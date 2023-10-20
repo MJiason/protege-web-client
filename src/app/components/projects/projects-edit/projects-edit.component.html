@@ -1,42 +1,131 @@
-<div>
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-        <mat-tab>
+<div class="projects-edit-toolbar">
+    <mat-tab-group class="projects-edit-toolbar__group" mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab class="projects-edit-toolbar__group">
             <ng-template mat-tab-label>
                 <mat-label>Classes</mat-label>
                 <mat-icon>menu</mat-icon>
             </ng-template>
-            <ng-container *ngTemplateOutlet="classes"></ng-container>
+            <ng-container *ngTemplateOutlet="classesTree"></ng-container>
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
                 <mat-label>Properties</mat-label>
                 <mat-icon>settings</mat-icon>
             </ng-template>
+            <ng-container *ngTemplateOutlet="propreties"></ng-container>
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
                 <mat-label>Individuals</mat-label>
                 <mat-icon>how_to_reg</mat-icon>
+
             </ng-template>
-        </mat-tab>
-        <mat-tab>
-            <ng-template mat-tab-label>
-                <mat-label>Comments</mat-label>
-                <mat-icon>comment</mat-icon>
-            </ng-template>
+            <ng-container *ngTemplateOutlet="individuals"></ng-container>
         </mat-tab>
     </mat-tab-group>
 
-    <ng-template #classes>
-        <mat-grid-list class="grid-container" rowHeight="1:1" cols="5">
+    <ng-template #classesTree>
+        <mat-grid-list class="grid-container" cdk-scrollable="false" rowHeight="1:1" cols="5">
             <mat-grid-tile class="grid-container__column" [colspan]="1">
-                <div style="height: 100%; width: 100%">
-                    <tree></tree>
+                <div class="grid-container__column__container">
+                    <tree
+                        [treeData]="selectedProject?.classesTree"
+                        (nodeSelected)="onNodeSelected($event)"
+                        (addClass)="addClass()"
+                    ></tree>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile class="grid-container__column" [colspan]="3">
+                <div class="grid-container__column__container grid-container__column__editblock">
+<!--                    <mat-label>{{"Class: Student"}}</mat-label>-->
+                    <mat-label>{{"Annotations"}}</mat-label>
+                    <editable-table></editable-table>
+                    <mat-form-field class="grid-container__column__selector">
+                        <mat-label>Parents</mat-label>
+                        <mat-select [value]="parentVal">
+                            <mat-option *ngFor="let parent of parents" [value]="parent">
+                                {{parent}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-label>{{"Relations"}}</mat-label>
+                    <editable-table></editable-table>
                 </div>
 
             </mat-grid-tile>
-            <mat-grid-tile class="grid-container__column" [colspan]="3"></mat-grid-tile>
             <mat-grid-tile class="grid-container__column" [colspan]="1"></mat-grid-tile>
         </mat-grid-list>
     </ng-template>
+
 </div>
+
+<ng-template #propreties>
+    <mat-grid-list class="grid-container" cdk-scrollable="false" rowHeight="1:1" cols="5">
+        <mat-grid-tile class="grid-container__column" [colspan]="1">
+            <div class="grid-container__column__container">
+                <tree
+                    [treeData]="secondTree"
+                    (nodeSelected)="onNodeSelected($event)"
+                    (addClass)="addClass()"
+                ></tree>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile class="grid-container__column" [colspan]="3">
+            <div class="grid-container__column__container grid-container__column__editblock">
+                <mat-label>{{"Properties"}}</mat-label>
+                <app-property-table></app-property-table>
+            </div>
+
+        </mat-grid-tile>
+        <mat-grid-tile class="grid-container__column" [colspan]="1"></mat-grid-tile>
+    </mat-grid-list>
+</ng-template>
+
+<ng-template #individuals>
+    <mat-grid-list class="grid-container" cdk-scrollable="false" rowHeight="1:1" cols="5">
+        <mat-grid-tile class="grid-container__column" [colspan]="1">
+            <div class="grid-container__column__container">
+                <tree
+                    [treeData]="secondTree"
+                    (nodeSelected)="onNodeSelected($event)"
+                    (addClass)="addClass()"
+                ></tree>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile class="grid-container__column" [colspan]="3">
+            <div class="grid-container__column__container grid-container__column__editblock">
+                <mat-label>{{"Properties"}}</mat-label>
+                <app-ind-table></app-ind-table>
+            </div>
+
+        </mat-grid-tile>
+        <mat-grid-tile class="grid-container__column" [colspan]="1"></mat-grid-tile>
+    </mat-grid-list>
+</ng-template>
+
+<ng-template #createClassPopup>
+    <h1 mat-dialog-title>Create New Class</h1>
+    <div mat-dialog-content class="projects__popup">
+        <form [formGroup]="newClassForm" class="projects__popup__form">
+            <mat-form-field>
+                <mat-label>Class name</mat-label>
+                <input formControlName="name" matInput placeholder="Enter project name">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Language</mat-label>
+                <input formControlName="language" matInput placeholder="Enter language">
+            </mat-form-field>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button
+            mat-button
+            mat-dialog-close
+            cdkFocusInitial
+            [disabled]="!newClassForm.valid"
+            (click)="onCreateForm()"
+        >Create
+        </button>
+        <button mat-button mat-dialog-close>Cancel</button>
+    </div>
+</ng-template>

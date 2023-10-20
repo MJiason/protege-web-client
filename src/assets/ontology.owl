@@ -1,0 +1,19 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex: <http://example.org/ontology#> .
+
+ex:MyOntology rdf:type owl:Ontology .
+
+ex:Subject rdf:type rdfs:Class ;
+    rdfs:label "Subject" ;
+    rdfs:comment "A class representing subjects in our ontology." .
+
+
+ex:hasName rdf:type rdf:Property ;
+    rdfs:label "hasName" ;
+    rdfs:domain ex:Subject ;
+    rdfs:range xsd:string .
+
+
+ex:JohnDoe rdf:type ex:Subject ;
+    ex:hasName "John Doe" .
