@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +30,50 @@ import { PropertyTableComponent } from './components/ui/property-table/property-
 import { IndTableComponent } from './components/ui/ind-table/ind-table.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import { LanguageSelectorComponent } from './components/toolbar/language-selector/language-selector.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {defaultInterpolationFormat, I18NEXT_SERVICE, I18NextModule, ITranslationService} from 'angular-i18next';
+import translationEn from "../assets/locales/en.json";
+import translationUa from "../assets/locales/ua.json";
+
+import LanguageDetector from "i18next-browser-languagedetector";
+import LocizeApi from "i18next-locize-backend";
+
+
+const i18nOptions = {
+    debug: true,
+    fallbackLng: 'en',
+    resources: {
+        en: translationEn,
+        ua: translationUa
+    },
+    interpolation: {
+        format: I18NextModule.interpolationFormat(defaultInterpolationFormat)
+    }
+};
+export function appInit(i18next: ITranslationService) {
+    return () => i18next
+        .use(LocizeApi)
+        .use<any>(LanguageDetector)
+        .init(i18nOptions);
+}
+
+export function localeIdFactory(i18next: ITranslationService) {
+    return i18next.language;
+}
+
+export const I18N_PROVIDERS = [
+    {
+        provide: APP_INITIALIZER,
+        useFactory: appInit,
+        deps: [I18NEXT_SERVICE],
+        multi: true
+    },
+    {
+        provide: LOCALE_ID,
+        deps: [I18NEXT_SERVICE],
+        useFactory: localeIdFactory
+    }];
 
 @NgModule({
   declarations: [
@@ -42,7 +86,8 @@ import {MatNativeDateModule} from "@angular/material/core";
     TreeComponent,
     EditableTableComponent,
     PropertyTableComponent,
-    IndTableComponent
+    IndTableComponent,
+    LanguageSelectorComponent
   ],
     imports: [
         BrowserModule,
@@ -65,10 +110,11 @@ import {MatNativeDateModule} from "@angular/material/core";
         MatListModule,
         FormsModule,
         MatDatepickerModule,
-        MatNativeDateModule
-
+        MatNativeDateModule,
+        MatMenuModule,
+        I18NextModule.forRoot()
     ],
-  providers: [],
+  providers: [I18N_PROVIDERS],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

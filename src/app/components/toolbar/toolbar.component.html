@@ -1,8 +1,9 @@
 <ng-container>
     <div>
         <mat-toolbar color=primary>
-            <span routerLink="/">Projects</span>
+            <span routerLink="/">{{message | i18next }}</span>
             <span class="spacer"></span>
+            <language-selector></language-selector>
         </mat-toolbar>
     </div>
 </ng-container>
