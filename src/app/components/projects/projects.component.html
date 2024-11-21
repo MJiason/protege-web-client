@@ -5,7 +5,7 @@
             mat-stroked-button
             color="primary"
             (click)="openDialog(createProjectPopup)"
-        >New project
+        >{{"crtNewOntology" | i18next}}
         </button>
         <div class="projects__table" id="projects_table">
             <projects-table></projects-table>
@@ -14,20 +14,24 @@
 </ng-container>
 
 <ng-template #createProjectPopup>
-    <h1 mat-dialog-title>Create New Project</h1>
+    <h1 mat-dialog-title>{{"crtNewOntology" | i18next}}</h1>
     <div mat-dialog-content class="projects__popup">
         <form [formGroup]="projectForm" class="projects__popup__form">
             <mat-form-field>
-                <mat-label>Project name</mat-label>
-                <input formControlName="name" matInput placeholder="Enter project name">
+                <mat-label>{{"ontologyName" | i18next}}</mat-label>
+                <input formControlName="name" matInput placeholder="{{'enterOntName' | i18next}}">
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Language</mat-label>
-                <input formControlName="language" matInput placeholder="Enter language">
+                <mat-label>{{"desc" | i18next}}</mat-label>
+                <textarea formControlName="description" matInput placeholder="{{'enterDesc' | i18next}}"></textarea>
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Description</mat-label>
-                <textarea formControlName="description" matInput placeholder="Enter description"></textarea>
+                <ngx-mat-file-input
+                    formControlName="file"
+                    placeholder="{{'file' | i18next}}"
+                    [color]="'primary'
+                ">
+                </ngx-mat-file-input>
             </mat-form-field>
         </form>
     </div>
@@ -35,11 +39,9 @@
         <button
             mat-button
             mat-dialog-close
-            cdkFocusInitial
             [disabled]="!projectForm.valid"
             (click)="onCreateForm()"
-        >Create
+        >{{"crt" | i18next}}
         </button>
-        <button mat-button mat-dialog-close>Cancel</button>
     </div>
 </ng-template>

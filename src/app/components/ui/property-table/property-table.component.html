@@ -1,4 +1,4 @@
-<div class="editable-row">
+<div class="class-container">
     <div>
         <form [formGroup]="annotationForm" class="projects__popup__form">
             <mat-form-field class="example-full-width">
@@ -8,7 +8,7 @@
 
             <mat-form-field>
                 <mat-label>Select Type</mat-label>
-                <mat-select formControlName="type" name="type">
+                <mat-select formControlName="type">
                     <mat-option *ngFor="let type of types" [value]="type">
                         {{ type }}
                     </mat-option>
@@ -17,7 +17,7 @@
 
             <mat-form-field>
                 <mat-label>Select Language</mat-label>
-                <mat-select formControlName="lang" name="language">
+                <mat-select formControlName="lang">
                     <mat-option *ngFor="let language of languages" [value]="language">
                         {{ language }}
                     </mat-option>

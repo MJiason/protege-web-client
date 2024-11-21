@@ -1,17 +1,21 @@
-import {firstTree, TreeNode} from "./project-trees";
+
 
 export interface ProjectData {
     id: string;
     name: string;
-    createdWhen: string;
-    classesTree: TreeNode[] | undefined;
+    createdWhen: number;
+    file: File | undefined;
 }
 
 export interface Class {
     id: string;
     name: string;
-    relations: Annotation[];
-    annotations: Annotation[];
+}
+
+export interface ClassShort {
+    className: string;
+    parentName: string;
+    comment:string;
 }
 
 export interface Annotation {
@@ -20,10 +24,4 @@ export interface Annotation {
     lang: string;
 }
 
-export const projectDataArray: ProjectData[] = [
-    {
-        id: '1',
-        name: 'Project 1',
-        createdWhen: '2023-10-19T08:00:00',
-        classesTree: firstTree
-    }];
+export const projectDataArray: ProjectData[] = [];

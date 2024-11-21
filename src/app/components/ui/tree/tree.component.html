@@ -1,54 +1,60 @@
-<div class="tree-buttons">
-    <button mat-mini-fab
-            color="primary"
-            (click)="addClassFn()"
-    >
-        <mat-icon>add</mat-icon>
-    </button>
-    <button
-        mat-mini-fab
-        color="accent"
-        (click)="onDeleteNodeByClassId()"
-    >
-        <mat-icon>delete</mat-icon>
-    </button>
-</div>
-<mat-divider></mat-divider>
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
-    <!-- This is the tree node template for leaf nodes -->
-    <!-- There is inline padding applied to this node using styles.
-      This padding value depends on the mat-icon-button width. -->
-    <mat-tree-node
-        *matTreeNodeDef="let node"
-        matTreeNodeToggle
-        [class.selected-node]="selection.isSelected(node)"
-        (click)="onNodeClicked(node)"
-    >
-        {{node.entity.name}}
-    </mat-tree-node>
-    <!-- This is the tree node template for expandable nodes -->
-    <mat-nested-tree-node
-        *matTreeNodeDef="let node;
-        when: hasChild"
-        (click)="onNodeClicked(node)"
-    >
-        <div
-            class="mat-tree-node"
-            [class.selected-node]="selection.isSelected(node)"
+<div class="tree-top">
+    <div class="tree-top__buttons">
+        <button mat-mini-fab
+                color="primary"
+                (click)="addClassFn()"
         >
-            <button mat-icon-button matTreeNodeToggle
-                    [attr.aria-label]="'Toggle ' + node.entity.name">
-                <mat-icon class="mat-icon-rtl-mirror">
-                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                </mat-icon>
-            </button>
-            {{node.entity.name}}
-        </div>
-        <!-- There is inline padding applied to this div using styles.
-            This padding value depends on the mat-icon-button width.  -->
-        <div [class.example-tree-invisible]="!treeControl.isExpanded(node)"
-             role="group">
-            <ng-container matTreeNodeOutlet></ng-container>
-        </div>
-    </mat-nested-tree-node>
-</mat-tree>
+            <mat-icon>add</mat-icon>
+        </button>
+        <button
+            mat-mini-fab
+            color="accent"
+            (click)="onDeleteNodeByClassId()"
+        >
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <mat-divider class="tree-top__divider"></mat-divider>
+</div>
+
+
+<div class="tree">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <!-- There is inline padding applied to this node using styles.
+          This padding value depends on the mat-icon-button width. -->
+        <mat-tree-node
+            *matTreeNodeDef="let node"
+            matTreeNodeToggle
+            [class.selected-node]="selection.isSelected(node)"
+            (click)="onNodeClicked(node)"
+        >
+            {{node.entity.uniqueName}}
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-nested-tree-node
+            *matTreeNodeDef="let node;
+        when: hasChild"
+            (click)="onNodeClicked(node)"
+        >
+            <div
+                class="mat-tree-node"
+                [class.selected-node]="selection.isSelected(node)"
+            >
+                <button mat-icon-button matTreeNodeToggle
+                        [attr.aria-label]="'Toggle ' + node.entity.name">
+                    <mat-icon class="mat-icon-rtl-mirror">
+                        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                    </mat-icon>
+                </button>
+                {{node.entity.name}}
+            </div>
+            <!-- There is inline padding applied to this div using styles.
+                This padding value depends on the mat-icon-button width.  -->
+            <div [class.tree-invisible]="!treeControl.isExpanded(node)"
+                 role="group">
+                <ng-container matTreeNodeOutlet></ng-container>
+            </div>
+        </mat-nested-tree-node>
+    </mat-tree>
+</div>

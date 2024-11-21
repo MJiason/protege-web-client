@@ -1,26 +1,36 @@
-import {Component, TemplateRef, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import {Component, TemplateRef} from '@angular/core';
 import {PopupComponent} from "../ui/popup/popup.component";
 import {MatDialog} from "@angular/material/dialog";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ProjectData, projectDataArray} from "../../models/projects";
 
+import {addProject} from "../../store/project-store/project.actions";
+import {Store} from "@ngrx/store";
+import {InoutService} from "../../services/inout.service";
+import {loadOntologyClasses} from "../../store/ontology-class-store/ontology.actions";
 
 
 @Component({
-  selector: 'app-projects',
-  templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.less']
+    selector: 'app-projects',
+    templateUrl: './projects.component.html',
+    styleUrls: ['./projects.component.less']
 })
 export class ProjectsComponent {
     projectForm: FormGroup;
+
     constructor(public dialog: MatDialog,
-                private fb: FormBuilder) {
+                private fb: FormBuilder,
+                private store: Store,
+                private inoutService: InoutService
+    ) {
         this.projectForm = this.fb.group({
-            name: [null, Validators.required],
-            language: [null, Validators.required],
-            description: [null, Validators.required]
+            name: new FormControl<string | null>("", {
+                validators: [Validators.required]
+            }),
+            description: new FormControl<string | null>("", {
+                validators: [Validators.required]
+            }),
+            file: new FormControl<File | undefined>(undefined)
         });
     }
 
@@ -29,7 +39,17 @@ export class ProjectsComponent {
     }
 
     public onCreateForm(): void {
-        console.log(this.projectForm.getRawValue());
+        let newProject = <ProjectData>{
+            id: (projectDataArray.length + 1).toString(),
+            name: this.projectForm.getRawValue().name,
+            createdWhen: Date.now(),
+            file: this.projectForm.getRawValue().file
+        }
+        if (newProject.file) {
+            this.inoutService.uploadOntology(newProject.file).subscribe(res => console.log(res));
+        }
+        this.store.dispatch(addProject({project: newProject}));
+        this.store.dispatch(loadOntologyClasses());
     }
 
 }

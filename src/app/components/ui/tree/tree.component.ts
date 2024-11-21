@@ -1,16 +1,10 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource} from "@angular/material/tree";
-import {FlatTreeControl, NestedTreeControl} from "@angular/cdk/tree";
-import {node, secondTree, TreeNode} from "../../../models/project-trees";
+import {MatTreeNestedDataSource} from "@angular/material/tree";
+import {NestedTreeControl} from "@angular/cdk/tree";
+import {TreeNode} from "../../../models/project-trees";
 import {SelectionModel} from "@angular/cdk/collections";
-import {Class} from "../../../models/projects";
-
-/** Flat node with expandable and level information */
-interface ExampleFlatNode {
-    expandable: boolean;
-    name: string;
-    level: number;
-}
+import {Observable} from "rxjs";
+import {OntologyClassAPI} from "../../../models/owl/OwlApiModels";
 
 @Component({
     selector: 'tree',
@@ -20,7 +14,7 @@ interface ExampleFlatNode {
 
 export class TreeComponent implements OnInit {
 
-    @Input() treeData!: any;
+    @Input() dataSelector!: Observable<OntologyClassAPI[]>
     @Output() nodeSelected = new EventEmitter<TreeNode>();
     @Output() addClass = new EventEmitter<any>();
 
@@ -34,32 +28,19 @@ export class TreeComponent implements OnInit {
     currentNode: TreeNode | undefined;
 
     ngOnInit(): void {
-        this.dataSource.data = this.treeData;
+        if (this.dataSelector.subscribe(data => {
+            this.dataSource.data = data.map(elem => <TreeNode>{
+               entity: elem,
+               children: undefined
+           });
+        }))
+        console.log(this.dataSource.data)
     }
 
-    deleteNodeByClassId(classId: string | undefined, node: TreeNode[] | undefined): TreeNode[] | undefined {
-        if (!node) {
-            return node;
-        }
 
-        // Filter the children array to remove the node with the specified classId
-        node = node.filter((child) => {
-            if (child.entity && child.entity.id === classId) {
-                // Node with the specified classId found and removed
-                return false;
-            } else {
-                // Recursively call the function for child nodes
-                child.children = this.deleteNodeByClassId(classId, child.children);
-                return true;
-            }
-        });
+    public hasChild = (_: number, node: TreeNode) => !!node.children && node.children.length > 0;
 
-        return node;
-    }
-
-    hasChild = (_: number, node: TreeNode) => !!node.children && node.children.length > 0;
-
-    onNodeClicked(node: TreeNode): void {
+    public onNodeClicked(node: TreeNode): void {
         if (this.selection.isSelected(node)) {
             this.selection.deselect(node);
         } else {
@@ -71,17 +52,12 @@ export class TreeComponent implements OnInit {
     }
 
     onDeleteNodeByClassId() {
-        let node = this.deleteNodeByClassId(this.currentNode?.entity?.id, this.treeData);
-        this.dataSource.data = node as TreeNode[];
-        this.treeControl.dataNodes = node as TreeNode[];
-        this.cdr.detectChanges();
+
     }
 
     addClassFn() {
-        this.addClass.emit();
+        //this.addClass.emit();
 
-        this.dataSource.data = secondTree;
-        this.treeControl.dataNodes = secondTree;
         this.cdr.detectChanges();
     }
 }

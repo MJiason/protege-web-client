@@ -1,5 +1,21 @@
 {
     "translation": {
-        "welcome": "Welcome to Your Angular App"
+        "welcome": "Ontology Builder",
+        "className": "Class Name",
+        "parentClassName": "Parent Class Name",
+        "comment": "Comment",
+        "remove": "Remove",
+        "classes": "Classes",
+        "label": "Label",
+        "noOntologies": "Empty list of ontologies",
+        "crtNewOntology": "Create New Ontology",
+        "ontologyName": "Ontology Name",
+        "desc": "Description",
+        "crt": "Create",
+        "file" : "File",
+        "enterOntName" : "Enter Ontology Name",
+        "enterDesc" : "Enter description",
+        "createdWhen" : "Created when",
+        "id": "ID"
     }
 }

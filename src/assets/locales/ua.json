@@ -1,5 +1,21 @@
 {
     "translation": {
-        "welcome": "Добрий день"
+        "welcome": "Конструктор Онтологій",
+        "className": "Назва класу",
+        "parentClassName": "Назва Батьківського Класу",
+        "comment": "Коментар",
+        "remove": "Видалити",
+        "classes": "Класи",
+        "label": "Лейбл",
+        "noOntologies": "Список онтологій порожній",
+        "crtNewOntology": "Створити нову онтологію",
+        "ontologyName": "Назва Онтології",
+        "desc": "Опис",
+        "crt": "Створити",
+        "file" : "Файл",
+        "enterOntName" : "Введіть назву онтології",
+        "enterDesc" : "Введіть опис",
+        "createdWhen" : "Дата створення",
+        "id": "Номер"
     }
 }

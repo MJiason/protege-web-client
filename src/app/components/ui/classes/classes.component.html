@@ -1,0 +1,46 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened class="sidenav-container_left">
+        <tree
+            [dataSelector]="this.ontologyClasses$"
+            (nodeSelected)="onNodeSelected($event)"
+        ></tree>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <ng-container *ngTemplateOutlet="classMainContainer"></ng-container>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #classMainContainer>
+    <div class="class-container">
+        <div>
+            <form [formGroup]="classForm">
+                <div class="class-container_form">
+                    <mat-form-field>
+                        <mat-label>{{"className" | i18next}}</mat-label>
+                        <input matInput formControlName="uniqueName">
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>{{"label" | i18next}}</mat-label>
+                        <input matInput formControlName="label">
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>{{"comment" | i18next}}</mat-label>
+                        <textarea matInput formControlName="comment">
+                        </textarea>
+                    </mat-form-field>
+                </div>
+
+            </form>
+        </div>
+        <button
+            mat-button
+            [disabled]="!classForm.valid"
+            (click)="onFormSubmit()"
+        >Create
+        </button>
+    </div>
+</ng-template>
+
