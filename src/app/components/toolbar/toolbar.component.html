@@ -3,6 +3,10 @@
         <mat-toolbar color=primary>
             <span routerLink="/">{{message | i18next }}</span>
             <span class="spacer"></span>
+            <button *ngIf="isDownloadShown" mat-icon-button aria-label="Download"
+                    (click)="download()">
+                <mat-icon aria-hidden="false" fontIcon="save_alt"></mat-icon>
+            </button>
             <language-selector></language-selector>
         </mat-toolbar>
     </div>

@@ -4,7 +4,7 @@ import {NestedTreeControl} from "@angular/cdk/tree";
 import {TreeNode} from "../../../models/project-trees";
 import {SelectionModel} from "@angular/cdk/collections";
 import {Observable} from "rxjs";
-import {OntologyClassAPI} from "../../../models/owl/OwlApiModels";
+import {OntologyClassAPI, OntologyDataPropertyAPI, OntologyIndividualAPI} from "../../../models/owl/OwlApiModels";
 
 @Component({
     selector: 'tree',
@@ -14,9 +14,10 @@ import {OntologyClassAPI} from "../../../models/owl/OwlApiModels";
 
 export class TreeComponent implements OnInit {
 
-    @Input() dataSelector!: Observable<OntologyClassAPI[]>
-    @Output() nodeSelected = new EventEmitter<TreeNode>();
-    @Output() addClass = new EventEmitter<any>();
+    @Input() dataSelector!: Observable<OntologyClassAPI[] | OntologyDataPropertyAPI[] | OntologyIndividualAPI[]>
+    @Output() onNodeSelected = new EventEmitter<TreeNode>();
+    @Output() onAddButtonClicked = new EventEmitter<void>();
+    @Output() onDeleteClicked = new EventEmitter<void>();
 
 
     constructor(private cdr: ChangeDetectorRef) {
@@ -28,12 +29,12 @@ export class TreeComponent implements OnInit {
     currentNode: TreeNode | undefined;
 
     ngOnInit(): void {
-        if (this.dataSelector.subscribe(data => {
+        this.dataSelector.subscribe(data => {
             this.dataSource.data = data.map(elem => <TreeNode>{
-               entity: elem,
-               children: undefined
-           });
-        }))
+                entity: elem,
+                children: undefined
+            });
+        });
         console.log(this.dataSource.data)
     }
 
@@ -48,16 +49,15 @@ export class TreeComponent implements OnInit {
             this.selection.select(node);
         }
         this.currentNode = node;
-        this.nodeSelected.emit(node);
+        this.onNodeSelected.emit(node);
     }
 
-    onDeleteNodeByClassId() {
-
+    deleteButtonClicked() {
+        this.onDeleteClicked.emit();
     }
 
-    addClassFn() {
-        //this.addClass.emit();
-
+    addButtonClicked() {
+        this.onAddButtonClicked.emit();
         this.cdr.detectChanges();
     }
 }

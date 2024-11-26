@@ -1,8 +1,8 @@
 
-import {OntologyClassAPI} from "./owl/OwlApiModels";
+import {OntologyClassAPI, OntologyDataPropertyAPI, OntologyIndividualAPI} from "./owl/OwlApiModels";
 
 export interface TreeNode {
-    entity: OntologyClassAPI;
+    entity: OntologyClassAPI | OntologyDataPropertyAPI | OntologyIndividualAPI;
     children?: TreeNode[];
 }
 

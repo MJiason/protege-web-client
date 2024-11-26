@@ -26,3 +26,20 @@ export const updateOntologyClassFailure = createAction(
     '[Ontology] Update Ontology Class Failure',
     props<{ error: any }>()
 );
+
+
+export const removeOntologyClass = createAction(
+    '[Ontology] Remove Ontology Class',
+    props<{ uniqueName: string }>() // Pass the unique identifier to remove
+);
+
+export const removeOntologyClassSuccess = createAction(
+    '[Ontology] Remove Ontology Class Success',
+    props<{ uniqueName: string }>() // Confirm removal of the item
+);
+
+export const removeOntologyClassFailure = createAction(
+    '[Ontology] Remove Ontology Class Failure',
+    props<{ error: any }>() // Handle any errors
+);
+

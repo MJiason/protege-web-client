@@ -7,7 +7,7 @@ import {ProjectData, projectDataArray} from "../../models/projects";
 import {addProject} from "../../store/project-store/project.actions";
 import {Store} from "@ngrx/store";
 import {InoutService} from "../../services/inout.service";
-import {loadOntologyClasses} from "../../store/ontology-class-store/ontology.actions";
+import {loadOntologyClasses} from "../../store/ontology-class-store/class.actions";
 
 
 @Component({
@@ -27,9 +27,7 @@ export class ProjectsComponent {
             name: new FormControl<string | null>("", {
                 validators: [Validators.required]
             }),
-            description: new FormControl<string | null>("", {
-                validators: [Validators.required]
-            }),
+            description: new FormControl<string | null>(""),
             file: new FormControl<File | undefined>(undefined)
         });
     }
@@ -52,4 +50,12 @@ export class ProjectsComponent {
         this.store.dispatch(loadOntologyClasses());
     }
 
+    public onFileInput() {
+        if (!this.projectForm.getRawValue().name) {
+            this.projectForm.setValue(<ProjectData>{
+                ...this.projectForm.getRawValue(),
+                name: <File> this.projectForm.getRawValue().file.name,
+            });
+        }
+    }
 }

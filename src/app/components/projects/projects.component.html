@@ -29,6 +29,7 @@
                 <ngx-mat-file-input
                     formControlName="file"
                     placeholder="{{'file' | i18next}}"
+                    (change)="onFileInput()"
                     [color]="'primary'
                 ">
                 </ngx-mat-file-input>

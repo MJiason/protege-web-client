@@ -7,10 +7,6 @@ export interface ProjectData {
     file: File | undefined;
 }
 
-export interface Class {
-    id: string;
-    name: string;
-}
 
 export interface ClassShort {
     className: string;
@@ -18,10 +14,11 @@ export interface ClassShort {
     comment:string;
 }
 
-export interface Annotation {
-    property: string;
-    value: string;
-    lang: string;
-}
+
+export const dataPropertiesRanges = [
+    "", "boolean", "number", "string", "another"
+]
+
+
 
 export const projectDataArray: ProjectData[] = [];

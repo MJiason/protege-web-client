@@ -1,0 +1,62 @@
+<app-sidenav
+    [navTemplate]="dataPropertyTree"
+    [mainTemplate]="dataPropertyMainContainer"
+>
+</app-sidenav>
+
+<ng-template #dataPropertyTree>
+    <tree
+        [dataSelector]="this.dataProperties$"
+        (onNodeSelected)="onNodeSelected($event)"
+        (onDeleteClicked)="removeSelectedClass()"
+        (onAddButtonClicked)="addNewDataProperty()"
+    ></tree>
+</ng-template>
+
+
+<ng-template #dataPropertyMainContainer>
+    <div class="data-property-container">
+        <div>
+            <form [formGroup]="dataPropertyForm">
+                <div class="data-property-container_form">
+                    <mat-form-field>
+                        <mat-label>{{"propName" | i18next}}</mat-label>
+                        <input matInput formControlName="uniqueName">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>{{"label" | i18next}}</mat-label>
+                        <input matInput formControlName="label">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>{{"comment" | i18next}}</mat-label>
+                        <textarea matInput formControlName="comment">
+                        </textarea>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>{{"range" | i18next}}</mat-label>
+                        <mat-select formControlName="range">
+                            <mat-option *ngFor="let range of dataPropertiesRanges" [value]="range">
+                                {{range | i18next}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <app-chips formControlName="domain"
+                               [dataSelector]="this.ontologyClasses$"
+                    ></app-chips>
+                </div>
+            </form>
+        </div>
+        <button
+            mat-button
+            [disabled]="!dataPropertyForm.valid"
+            (click)="onFormSubmit()"
+        >
+            <ng-container *ngIf="formMode === FormMode.CREATE">{{"crt" | i18next}}</ng-container>
+            <ng-container *ngIf="formMode === FormMode.UPDATE">{{"update" | i18next}}</ng-container>
+        </button>
+    </div>
+</ng-template>

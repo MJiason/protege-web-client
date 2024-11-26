@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {DataService} from "../../../services/data.service";
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ProjectData} from "../../../models/projects";
+import {selectAllProjects} from "../../../store/project-store/project.selectors";
+import {Store} from "@ngrx/store";
 
 
 @Component({
@@ -10,21 +10,24 @@ import {ProjectData} from "../../../models/projects";
     styleUrls: ['./projects-edit.component.less']
 })
 export class ProjectsEditComponent implements OnInit {
-    projectId!: string | null;
+
     selectedProject!: ProjectData | undefined;
 
     constructor(
-        private route: ActivatedRoute,
-        private data: DataService,
+        private cdr: ChangeDetectorRef,
+        private store: Store,
     ) {
     }
 
     ngOnInit(): void {
-        this.route.paramMap.subscribe((params) => {
-            this.projectId = params.get('id');
-            this.selectedProject = this.data.project1.find(p => p.id === this.projectId);
-        });
+        this.store.select(selectAllProjects).subscribe(
+            projects => this.selectedProject = projects[0]
+        );
     }
 
 
+    changeTab() {
+        this.cdr.detectChanges();
+        this.cdr.markForCheck();
+    }
 }

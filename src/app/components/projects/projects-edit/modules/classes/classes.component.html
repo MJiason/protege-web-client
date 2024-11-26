@@ -1,16 +1,19 @@
-<mat-sidenav-container class="sidenav-container">
-    <mat-sidenav mode="side" opened class="sidenav-container_left">
-        <tree
-            [dataSelector]="this.ontologyClasses$"
-            (nodeSelected)="onNodeSelected($event)"
-        ></tree>
-    </mat-sidenav>
 
-    <mat-sidenav-content>
-        <ng-container *ngTemplateOutlet="classMainContainer"></ng-container>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+<app-sidenav
+    [navTemplate]="classTree"
+    [mainTemplate]="classMainContainer"
+>
+</app-sidenav>
 
+
+<ng-template #classTree>
+    <tree
+        [dataSelector]="this.ontologyClasses$"
+        (onNodeSelected)="onNodeSelected($event)"
+        (onAddButtonClicked)="addNewClass()"
+        (onDeleteClicked)="removeSelectedClass()"
+    ></tree>
+</ng-template>
 <ng-template #classMainContainer>
     <div class="class-container">
         <div>
@@ -39,7 +42,9 @@
             mat-button
             [disabled]="!classForm.valid"
             (click)="onFormSubmit()"
-        >Create
+        >
+            <ng-container *ngIf="formMode === FormMode.CREATE">{{"crt" | i18next}}</ng-container>
+            <ng-container *ngIf="formMode === FormMode.UPDATE">{{"update" | i18next}}</ng-container>
         </button>
     </div>
 </ng-template>

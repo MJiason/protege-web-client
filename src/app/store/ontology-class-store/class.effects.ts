@@ -6,12 +6,16 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
     loadOntologyClasses,
     loadOntologyClassesSuccess,
-    loadOntologyClassesFailure, updateOntologyClass, updateOntologyClassSuccess, updateOntologyClassFailure,
-} from './ontology.actions';
-import {OntologyService} from "../../services/ontology.service";
+    loadOntologyClassesFailure,
+    updateOntologyClass,
+    updateOntologyClassSuccess,
+    updateOntologyClassFailure,
+    removeOntologyClassFailure, removeOntologyClassSuccess, removeOntologyClass,
+} from './class.actions';
+import {ClassService} from "../../services/class.service";
 
 @Injectable()
-export class OntologyEffects {
+export class ClassEffects {
     loadOntologyClasses$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadOntologyClasses),
@@ -36,5 +40,17 @@ export class OntologyEffects {
         )
     );
 
-    constructor(private actions$: Actions, private ontologyService: OntologyService) {}
+    removeOntologyClass$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(removeOntologyClass),
+            mergeMap(({ uniqueName }) =>
+                this.ontologyService.deleteOntologyClass(uniqueName).pipe(
+                    map(() => removeOntologyClassSuccess({ uniqueName })),
+                    catchError((error) => of(removeOntologyClassFailure({ error })))
+                )
+            )
+        )
+    );
+
+    constructor(private actions$: Actions, private ontologyService: ClassService) {}
 }

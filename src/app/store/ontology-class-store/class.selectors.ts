@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { OntologyState } from './ontology.reducer';
+import { OntologyState } from './class.reducer';
 
 export const selectOntologyState = createFeatureSelector<OntologyState>('ontology');
 

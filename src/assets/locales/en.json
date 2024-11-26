@@ -12,10 +12,20 @@
         "ontologyName": "Ontology Name",
         "desc": "Description",
         "crt": "Create",
-        "file" : "File",
-        "enterOntName" : "Enter Ontology Name",
-        "enterDesc" : "Enter description",
-        "createdWhen" : "Created when",
-        "id": "ID"
+        "file": "File",
+        "enterOntName": "Enter Ontology Name",
+        "enterDesc": "Enter description",
+        "createdWhen": "Created when",
+        "id": "ID",
+        "update": "Update",
+        "propName": "Property Name",
+        "prop": "Property",
+        "range": "Range",
+        "boolean": "Logical",
+        "number": "Numeric",
+        "string": "Text",
+        "another": "Other",
+        "name": "Name",
+        "individual": "Individuals"
     }
 }

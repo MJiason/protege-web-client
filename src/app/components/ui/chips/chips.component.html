@@ -1,0 +1,21 @@
+<mat-form-field class="chip-list">
+    <mat-label>{{"className" | i18next}}</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Fruit selection">
+        <mat-chip-row *ngFor="let entity of selectedEntities" (removed)="remove(entity)">
+            {{entity.uniqueName}}
+            <button matChipRemove [attr.aria-label]="'remove ' + entity">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip-row>
+    </mat-chip-grid>
+    <input placeholder="{{'className' | i18next}}..." #entityInput
+           (touchcancel)="onTouched()"
+           [formControl]="formControl"
+           [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"/>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let entity of filteredEntities | async" [value]="entity">
+            {{entity.uniqueName}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

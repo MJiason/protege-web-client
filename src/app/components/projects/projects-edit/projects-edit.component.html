@@ -1,5 +1,6 @@
 <div class="projects-edit-toolbar">
-    <mat-tab-group class="projects-edit-toolbar__group" mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab-group class="projects-edit-toolbar__group" mat-stretch-tabs="false" mat-align-tabs="start"
+    (selectedTabChange)="changeTab()">
         <mat-tab class="projects-edit-toolbar__group">
             <ng-template mat-tab-label>
                 <mat-label>{{'classes' | i18next}}</mat-label>
@@ -7,18 +8,17 @@
             </ng-template>
             <ng-container *ngTemplateOutlet="classesTree"></ng-container>
         </mat-tab>
-        <mat-tab>
+        <mat-tab class="projects-edit-toolbar__group">
             <ng-template mat-tab-label>
-                <mat-label>Properties</mat-label>
+                <mat-label>{{"prop" | i18next}}</mat-label>
                 <mat-icon>settings</mat-icon>
             </ng-template>
-            <ng-container *ngTemplateOutlet="propreties"></ng-container>
+            <ng-container *ngTemplateOutlet="properties"></ng-container>
         </mat-tab>
-        <mat-tab>
+        <mat-tab class="projects-edit-toolbar__group">
             <ng-template mat-tab-label>
-                <mat-label>Individuals</mat-label>
+                <mat-label>{{"individual" | i18next}}</mat-label>
                 <mat-icon>how_to_reg</mat-icon>
-
             </ng-template>
             <ng-container *ngTemplateOutlet="individuals"></ng-container>
         </mat-tab>
@@ -30,47 +30,11 @@
 
 </div>
 
-<ng-template #propreties>
-    <!--    <mat-grid-list class="grid-container" cdk-scrollable="false" rowHeight="1:1" cols="5">-->
-    <!--        <mat-grid-tile class="grid-container__column" [colspan]="1">-->
-    <!--            <div class="grid-container__column__container">-->
-    <!--                <tree-->
-    <!--                    [treeData]="secondTree"-->
-    <!--                    (nodeSelected)="onNodeSelected($event)"-->
-    <!--                    (addClass)="addClass()"-->
-    <!--                ></tree>-->
-    <!--            </div>-->
-    <!--        </mat-grid-tile>-->
-    <!--        <mat-grid-tile class="grid-container__column" [colspan]="3">-->
-    <!--            <div class="grid-container__column__container grid-container__column__editblock">-->
-    <!--                <mat-label>{{"Properties"}}</mat-label>-->
-    <!--                <app-property-table></app-property-table>-->
-    <!--            </div>-->
-
-    <!--        </mat-grid-tile>-->
-    <!--        <mat-grid-tile class="grid-container__column" [colspan]="1"></mat-grid-tile>-->
-    <!--    </mat-grid-list>-->
+<ng-template #properties>
+    <app-properties></app-properties>
 </ng-template>
 
 <ng-template #individuals>
-    <!--    <mat-grid-list class="grid-container" cdk-scrollable="false" rowHeight="1:1" cols="5">-->
-    <!--        <mat-grid-tile class="grid-container__column" [colspan]="1">-->
-    <!--            <div class="grid-container__column__container">-->
-    <!--                <tree-->
-    <!--                    [treeData]="secondTree"-->
-    <!--                    (nodeSelected)="onNodeSelected($event)"-->
-    <!--                    (addClass)="addClass()"-->
-    <!--                ></tree>-->
-    <!--            </div>-->
-    <!--        </mat-grid-tile>-->
-    <!--        <mat-grid-tile class="grid-container__column" [colspan]="3">-->
-    <!--            <div class="grid-container__column__container grid-container__column__editblock">-->
-    <!--                <mat-label>{{"Properties"}}</mat-label>-->
-    <!--                <app-ind-table></app-ind-table>-->
-    <!--            </div>-->
-
-    <!--        </mat-grid-tile>-->
-    <!--        <mat-grid-tile class="grid-container__column" [colspan]="1"></mat-grid-tile>-->
-    <!--    </mat-grid-list>-->
+    <app-individuals></app-individuals>
 </ng-template>
 

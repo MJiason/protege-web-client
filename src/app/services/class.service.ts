@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {OntologyClassAPI} from "../models/owl/OwlApiModels";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class OntologyService {
+export class ClassService {
 
     private apiUrl = 'http://localhost:8080/api/ontology/classes'; // Replace with your backend URL
 
@@ -20,4 +20,9 @@ export class OntologyService {
 
     updateOntologyClass(updatedClass: OntologyClassAPI): Observable<OntologyClassAPI> {
         return this.http.post<OntologyClassAPI>(`${this.apiUrl}`, updatedClass);
-    }}
+    }
+
+    deleteOntologyClass(uniqueName: string): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${uniqueName}`);
+    }
+}

@@ -25,9 +25,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {TreeComponent} from './components/ui/tree/tree.component';
 import {MatTreeModule} from "@angular/material/tree";
 import {MatListModule} from "@angular/material/list";
-import {ClassesComponent} from './components/ui/classes/classes.component';
-import {PropertyTableComponent} from './components/ui/property-table/property-table.component';
-import {IndTableComponent} from './components/ui/ind-table/ind-table.component';
+import {ClassesComponent} from './components/projects/projects-edit/modules/classes/classes.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {LanguageSelectorComponent} from './components/toolbar/language-selector/language-selector.component';
@@ -48,8 +46,18 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {projectReducer} from "./store/project-store/project.reducer";
 import {registerLocaleData} from "@angular/common";
 import localeUa from '@angular/common/locales/uk';
-import {OntologyEffects} from "./store/ontology-class-store/ontology.effects";
-import {ontologyReducer} from "./store/ontology-class-store/ontology.reducer";
+import {ClassEffects} from "./store/ontology-class-store/class.effects";
+import {classReducer} from "./store/ontology-class-store/class.reducer";
+import {PropertiesComponent} from './components/projects/projects-edit/modules/properties/properties.component';
+import {dataPropertyReducer} from "./store/ontology-data-property-store/data-property.reducer";
+import {DataPropertyEffects} from "./store/ontology-data-property-store/data-property.effects";
+import {SidenavComponent} from './components/ui/sidenav/sidenav.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatChipsModule} from "@angular/material/chips";
+import {ChipsComponent} from './components/ui/chips/chips.component';
+import { IndividualsComponent } from './components/projects/projects-edit/modules/individuals/individuals.component';
+import {OntologyIndividualEffects} from "./store/ontology-individual-store/ontology-individual.effects";
+import {ontologyIndividualReducer} from "./store/ontology-individual-store/ontology-individual.reducer";
 
 registerLocaleData(localeUa, 'ua');
 
@@ -99,9 +107,11 @@ export const I18N_PROVIDERS = [
         ProjectsEditComponent,
         TreeComponent,
         ClassesComponent,
-        PropertyTableComponent,
-        IndTableComponent,
-        LanguageSelectorComponent
+        LanguageSelectorComponent,
+        PropertiesComponent,
+        SidenavComponent,
+        ChipsComponent,
+        IndividualsComponent,
     ],
     imports: [
         BrowserModule,
@@ -134,10 +144,14 @@ export const I18N_PROVIDERS = [
         NgxMatFileInputModule,
         StoreModule.forRoot({
             projects: projectReducer,
-            ontology: ontologyReducer
+            ontology: classReducer,
+            dataProperty: dataPropertyReducer,
+            ontologyIndividual: ontologyIndividualReducer
         }, {}),
-        EffectsModule.forRoot([OntologyEffects]),
-        StoreDevtoolsModule.instrument({maxAge: 25, logOnly: !isDevMode()})
+        EffectsModule.forRoot([ClassEffects, DataPropertyEffects, OntologyIndividualEffects]),
+        StoreDevtoolsModule.instrument({maxAge: 25, logOnly: !isDevMode()}),
+        MatAutocompleteModule,
+        MatChipsModule
     ],
     providers: [I18N_PROVIDERS],
     bootstrap: [AppComponent]

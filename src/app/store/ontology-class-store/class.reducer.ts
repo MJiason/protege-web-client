@@ -3,8 +3,12 @@ import {
     loadOntologyClasses,
     loadOntologyClassesSuccess,
     loadOntologyClassesFailure,
-    updateOntologyClass, updateOntologyClassSuccess, updateOntologyClassFailure
-} from './ontology.actions';
+    updateOntologyClass,
+    updateOntologyClassSuccess,
+    updateOntologyClassFailure,
+    removeOntologyClass,
+    removeOntologyClassSuccess, removeOntologyClassFailure
+} from './class.actions';
 import {OntologyClassAPI} from "../../models/owl/OwlApiModels";
 
 
@@ -20,7 +24,7 @@ export const initialOntologyState: OntologyState = {
     error: null,
 };
 
-export const ontologyReducer = createReducer(
+export const classReducer = createReducer(
     initialOntologyState,
     on(loadOntologyClasses, (state) => ({
         ...state,
@@ -47,11 +51,28 @@ export const ontologyReducer = createReducer(
     on(updateOntologyClassSuccess, (state, {updatedClass}) => ({
         ...state,
         loading: false,
-        ontologyClasses: state.ontologyClasses.map((ontologyClass) =>
-            ontologyClass.uniqueName === updatedClass.uniqueName ? updatedClass : ontologyClass
-        ),
+        ontologyClasses: state.ontologyClasses.concat(updatedClass),
     })),
     on(updateOntologyClassFailure, (state, {error}) => ({
+        ...state,
+        loading: false,
+        error,
+    })),
+
+    // Handle Remove
+    on(removeOntologyClass, (state) => ({
+        ...state,
+        loading: true,
+        error: null,
+    })),
+    on(removeOntologyClassSuccess, (state, { uniqueName }) => ({
+        ...state,
+        loading: false,
+        ontologyClasses: state.ontologyClasses.filter(
+            (ontologyClass) => ontologyClass.uniqueName !== uniqueName
+        ),
+    })),
+    on(removeOntologyClassFailure, (state, { error }) => ({
         ...state,
         loading: false,
         error,

@@ -21,11 +21,11 @@ export interface OntologyDataPropertyAPI {
 
 export interface OntologyIndividualAPI {
     uniqueName: string;
-    classAPI: OntologyClassAPI;
+    className: string;
     label: string;
-    comment: string;
-    dataProperties: OntologyDataPropertyAPI[];
-    objectProperties: OntologyObjectPropertyAPI[];
+    comment?: string;
+    objectPropertyRelations?: { [key: string]: string[] };
+    filledDataProperties?: { [key: string]: string[] };
 }
 
 export interface OntologyObjectPropertyAPI {

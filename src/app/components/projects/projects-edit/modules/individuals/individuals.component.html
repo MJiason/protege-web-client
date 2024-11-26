@@ -1,0 +1,59 @@
+<app-sidenav
+    [navTemplate]="individualsTree"
+    [mainTemplate]="individualMainContainer"
+>
+</app-sidenav>
+
+<ng-template #individualsTree>
+    <tree
+        [dataSelector]="this.individuals$"
+        (onAddButtonClicked)="addNewDataProperty()"
+        (onDeleteClicked)="removeSelectedClass()"
+        (onNodeSelected)="onNodeSelected($event)"
+    ></tree>
+</ng-template>
+
+<ng-template #individualMainContainer>
+    <div class="individual-property-container">
+        <div>
+            <form [formGroup]="individualPropertyForm">
+                <div class="individual-property-container_form">
+                    <mat-form-field>
+                        <mat-label>{{"name" | i18next}}</mat-label>
+                        <input matInput formControlName="uniqueName">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>{{"label" | i18next}}</mat-label>
+                        <input matInput formControlName="label">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>{{"comment" | i18next}}</mat-label>
+                        <textarea matInput formControlName="comment">
+                        </textarea>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>{{"className" | i18next}}</mat-label>
+                        <mat-select formControlName="className">
+                            <mat-option *ngFor="let className of ontologyClasses$ | async"  [value]="className">
+                                {{className | i18next}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+        <button
+            mat-button
+            [disabled]="!individualPropertyForm.valid"
+            (click)="onFormSubmit()"
+        >
+            <ng-container *ngIf="formMode === FormMode.CREATE">{{"crt" | i18next}}</ng-container>
+            <ng-container *ngIf="formMode === FormMode.UPDATE">{{"update" | i18next}}</ng-container>
+        </button>
+
+    </div>
+</ng-template>
+
